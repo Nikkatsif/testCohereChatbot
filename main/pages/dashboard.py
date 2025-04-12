@@ -25,7 +25,7 @@ class Dashboard:
 
     def get_profile_email(self):
         self.get_profile_popover().click()
-        self.wait_for_load_state()
+        self.page.wait_for_load_state()
         return self.page.locator("[id=\"headlessui-popover-panel-\\:r4\\:\"]").get_by_text("@")
 
     def get_log_out_button(self):
