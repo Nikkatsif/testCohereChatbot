@@ -15,8 +15,6 @@ def test_send_chat(page: Page, config):
     dashboard.login(email, password)
 
     # Assert that the log in was successful, with the correct account 
-    dashboard.get_profile_popover().click()
-    dashboard_page.wait_for_load_state()
     expect(dashboard.get_profile_email()).to_contain_text(email)
 
     dashboard.go_to_chat()
@@ -44,8 +42,6 @@ def test_upload_file(page: Page, config):
     dashboard.login(email, password)
 
     # Assert that the log in was successful, with the correct account 
-    dashboard.get_profile_popover().click()
-    dashboard_page.wait_for_load_state()
     expect(dashboard.get_profile_email()).to_contain_text(email)
 
     dashboard.go_to_chat()
