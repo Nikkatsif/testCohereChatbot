@@ -20,8 +20,8 @@ def test_send_chat(page: Page, config):
     dashboard.go_to_chat()
     dashboard.message_chatbot("Hello, where are my keys?")
 
-    # Assert that a response has been generated, since it can be upvoted
-    expect(dashboard.get_like_button()).to_be_visible(timeout = 15000)
+    # Assert that a response has been generated, with an indicator that only appears if this has indeed happened
+    expect(dashboard.get_response_indicator()).to_be_visible(timeout = 15000)
 
     dashboard.logout()
     dashboard_page.wait_for_load_state()
@@ -47,13 +47,13 @@ def test_upload_file(page: Page, config):
     dashboard.go_to_chat()
     dashboard.upload_pdf("the_raven.pdf")
 
-    # Assert that a file has just been uploaded, since only this file will have its checkbox checked
-    expect(dashboard.get_uploaded_checkbox()).to_be_visible(timeout = 15000)
+    # Assert that a file has just been uploaded, with a corresponding indicator
+    expect(dashboard.get_uploaded_indicator()).to_be_visible(timeout = 15000)
 
     dashboard.message_chatbot("Hello, what is this pdf about?")
     
     # Assert that the chatbot has correctly changed the topic of the conversration to match the topic of the .pdf file
-    expect(dashboard_page.get_by_role("main").locator("span").filter(has_text="Edgar Allan Poe").first).to_be_visible(timeout = 20000)
+    expect(dashboard.get_conversation_topic("Edgar Allan Poe")).to_be_visible(timeout = 20000)
 
     dashboard.logout()
     dashboard_page.wait_for_load_state()

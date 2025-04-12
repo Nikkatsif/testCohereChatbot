@@ -31,7 +31,7 @@ class Dashboard:
     def get_log_out_button(self):
         return self.page.get_by_role("link", name="Log out")
 
-    def get_like_button(self):
+    def get_response_indicator(self):
         return self.page.get_by_role("button", name="approve feedback", exact=True)
     
     def get_tools_drawer(self):
@@ -46,8 +46,11 @@ class Dashboard:
     def get_attachment_listing(self, file_name: str):
         return self.page.get_by_text(file_name)
     
-    def get_uploaded_checkbox(self):
+    def get_uploaded_indicator(self):
         return self.page.get_by_role("checkbox", name="")
+    
+    def get_conversation_topic(self, topic: str):
+        return self.page.get_by_role("main").locator("span").filter(has_text = topic).first
     
     def login(self, email: str, password: str):
         self.get_email_field().fill(email)
