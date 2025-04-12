@@ -2,7 +2,6 @@ from playwright.sync_api import Page, expect
 from pages.landing_page import Landing_page
 from pages.dashboard import Dashboard
 from fixtures.config_fixture import config
-from os import getcwd
 
 def test_send_chat(page: Page, config):
     email = config['email']
