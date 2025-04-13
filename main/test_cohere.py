@@ -1,18 +1,14 @@
 from playwright.sync_api import Page, expect
-from pages.landing_page import Landing_page
-from pages.dashboard import Dashboard
-from fixtures.config_fixture import config
+import pytest
+import config
+from fixtures.login_fixture import login_to_dashboard
 
-def test_send_chat(page: Page, config):
-    email = config['email']
-    password = config['password']
-    landing_page = Landing_page(page)
-
-    dashboard_page = landing_page.navigate_to_dashboard()
-    dashboard_page.wait_for_load_state() 
-
-    dashboard = Dashboard(dashboard_page)
-    dashboard.login(email, password)
+@pytest.mark.parametrize(
+    "llm_page",
+    config.PAGES_LIST,
+)
+def test_send_chat(login_to_dashboard):
+    email, dashboard, dashboard_page = login_to_dashboard
 
     # Assert that the log in was successful, with the correct account 
     expect(dashboard.get_profile_email()).to_contain_text(email)
@@ -29,17 +25,12 @@ def test_send_chat(page: Page, config):
     # Assert that the logout has been successful
     expect(dashboard.get_login_button()).to_be_visible()
 
-
-def test_upload_file(page: Page, config):
-    email = config['email']
-    password = config['password']
-    landing_page = Landing_page(page)
-
-    dashboard_page = landing_page.navigate_to_dashboard()
-    dashboard_page.wait_for_load_state() 
-
-    dashboard = Dashboard(dashboard_page)
-    dashboard.login(email, password)
+@pytest.mark.parametrize(
+    "llm_page",
+    config.PAGES_LIST,
+)
+def test_upload_file(login_to_dashboard):
+    email, dashboard, dashboard_page = login_to_dashboard
 
     # Assert that the log in was successful, with the correct account 
     expect(dashboard.get_profile_email()).to_contain_text(email)
